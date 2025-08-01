@@ -1,0 +1,16 @@
+# install uv python package manager On Windows.
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# create env
+uv venv --python 3.12
+
+
+# activate env
+.venv\Scripts\activate
+
+# install dependencies
+uv pip install -r requirements.txt
+
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.venv\Scripts\Activate.ps1
