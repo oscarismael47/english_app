@@ -14,7 +14,7 @@ build/
 
 # Streamlit
 .streamlit/
-
+.devcontainer/
 # VS Code
 .vscode/
 
