@@ -1,6 +1,6 @@
-from utils.data_helper import DataHelper
-from utils.llm_helper import evaluate_paragraph
-from utils.audio_to_text_helper import transcribe_audio_with_groq
+from data_helper import DataHelper
+from llm_helper import evaluate_paragraph
+from audio_to_text_helper import transcribe_audio_with_groq
 import streamlit as st
 
 FILE_PATH = "english_business.xlsx"

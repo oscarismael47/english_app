@@ -6,7 +6,7 @@ from langchain_groq import ChatGroq
 if __name__ == "__main__":
     import prompts 
 else:
-    import utils.prompts as prompts
+    import prompts as prompts
 
 class WordsUsage(BaseModel):
     used: List[str] = Field(description="List of words that were used in the paragraph.")
