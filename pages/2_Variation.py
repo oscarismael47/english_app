@@ -29,7 +29,7 @@ if "user_variation" not in st.session_state:
 if "feedback" not in st.session_state:
     st.session_state.feedback = ""
 
-if "corrected_paragraph" not in st.session_state:
+if "corrected_variation" not in st.session_state:
     st.session_state.corrected_variation = ""
 
 if "is_valid" not in st.session_state:

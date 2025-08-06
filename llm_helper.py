@@ -14,6 +14,7 @@ class WordsUsage(BaseModel):
 
 
 # Load secrets from Streamlit's secrets management
+print(st.secrets)
 GROQ_API = st.secrets["GROQ_API"]
 GROQ_MODEL = st.secrets["GROQ_MODEL"]
 
