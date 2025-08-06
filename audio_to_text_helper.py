@@ -3,8 +3,8 @@ from pathlib import Path
 from groq import Groq
 import streamlit as st
 
-api_key = st.secrets["LLM"]["API_KEY"]
-client = Groq(api_key=api_key)
+GROQ_API = st.secrets["LLM"]["API"]
+client = Groq(api_key=GROQ_API)
 
 
 def transcribe_audio_with_groq(audio_file_path: str, prompt: str = "IT conversations. Mexican speaker") -> dict:

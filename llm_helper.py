@@ -14,9 +14,11 @@ class WordsUsage(BaseModel):
 
 
 # Load secrets from Streamlit's secrets management
-GROQ_API_KEY = st.secrets["LLM"]["API_KEY"]
+GROQ_API = st.secrets["LLM"]["API"]
 GROQ_MODEL = st.secrets["LLM"]["MODEL"]
-LLM = ChatGroq(model=GROQ_MODEL,api_key=GROQ_API_KEY)
+
+
+LLM = ChatGroq(model=GROQ_MODEL,api_key=GROQ_API)
 
 def evaluate_paragraph(question, words_list, user_paragraph):
     prompt = prompts.EVALUATE_PARAGRAPH.format(question = question,
