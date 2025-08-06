@@ -3,7 +3,7 @@ from pathlib import Path
 from groq import Groq
 import streamlit as st
 
-GROQ_API = st.secrets["LLM"]["API"]
+GROQ_API = st.secrets["GROQ_API"]
 client = Groq(api_key=GROQ_API)
 
 

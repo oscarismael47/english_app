@@ -14,8 +14,8 @@ class WordsUsage(BaseModel):
 
 
 # Load secrets from Streamlit's secrets management
-GROQ_API = st.secrets["LLM"]["API"]
-GROQ_MODEL = st.secrets["LLM"]["MODEL"]
+GROQ_API = st.secrets["GROQ_API"]
+GROQ_MODEL = st.secrets["GROQ_MODEL"]
 
 
 LLM = ChatGroq(model=GROQ_MODEL,api_key=GROQ_API)
