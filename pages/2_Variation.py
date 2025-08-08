@@ -18,7 +18,7 @@ if "selected_words" not in st.session_state:
     st.session_state.selected_words = {}
 
 if "verb_tense" not in st.session_state:
-    st.session_state.verb_tense = "Simple Present"
+    st.session_state.verb_tense = ""
 
 if "genearated_sentence" not in st.session_state:
     st.session_state.generated_sentence = ""
@@ -42,23 +42,24 @@ with st.sidebar:
     with next_column:
         if st.button("Generate Sentence", use_container_width=True):
             st.session_state.selected_words = st.session_state.data_helper.get_words(words_per_section)
-   
             if st.session_state.selected_words == {}:
                 print("no_more_exercises")
                 print(st.session_state.selected_words)
                 no_more_exercises()
             else:
-                st.session_state.time = st.session_state.selected_words["Times"][0]
-                st.session_state.words_list = []
+                st.session_state.verb_tense = st.session_state.selected_words["Times"][0]
+                st.session_state.words = []
                 for section, words in st.session_state.selected_words.items():
                     if section == "Questions": 
                         continue
                     if section == "Times":
                         continue
                     for word in words:
-                        st.session_state.words_list.append(f"{section}: {word}")
+                        st.session_state.words.append(f"{section}: {word}")
                 
-                sentence_response = generate_sentence(st.session_state.words_list, st.session_state.verb_tense, length = "short")
+                sentence_response = generate_sentence(  words = st.session_state.words,
+                                                        verb_tense= st.session_state.verb_tense,
+                                                        length = "short")
 
                 st.session_state.generated_sentence = sentence_response["generated_text"]
                 st.session_state.user_variation = ""
