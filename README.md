@@ -53,7 +53,7 @@ toml
 Copy
 Edit
 [LLM]
-API_KEY = "your_groq_api_key"
+API_KEY = "your_GROQ_KEY_key"
 MODEL = "your_groq_model_name"  # e.g., "mixtral-8x7b-32768"
 4. Run the App
 bash

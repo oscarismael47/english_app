@@ -3,3 +3,4 @@ langgraph
 langchain-groq
 langchain-openai
 openpyxl
+sseclient-py

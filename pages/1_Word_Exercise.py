@@ -1,6 +1,6 @@
-from data_helper import DataHelper
-from llm_helper import evaluate_paragraph
-from audio_to_text_helper import transcribe_audio_with_groq
+from utils.data_helper import DataHelper
+from utils.llm_helper import LLMHandler
+from utils.groq_helper import GroqHandler
 import streamlit as st
 
 FILE_PATH = "english_business.xlsx"
@@ -14,6 +14,12 @@ def no_more_exercises():
 
 if "data_helper" not in st.session_state:
     st.session_state.data_helper = DataHelper(FILE_PATH)
+
+if "llm_handler" not in st.session_state:
+    st.session_state.llm_handler = LLMHandler(provider="openai") 
+
+if "groq_handler" not in st.session_state:
+    st.session_state.groq_handler = GroqHandler() 
 
 if "selected_words" not in st.session_state:
     st.session_state.selected_words = {}
@@ -79,7 +85,7 @@ with st.sidebar:
             print(st.session_state.question)
             print(st.session_state.words)
             print(st.session_state.user_paragraph)
-            response = evaluate_paragraph(  st.session_state.question,
+            response = st.session_state.llm_handler.evaluate_paragraph(  st.session_state.question,
                                             st.session_state.verb_tense,
                                             st.session_state.words,
                                             st.session_state.user_paragraph)
@@ -111,7 +117,7 @@ with st.container(border=True):
         if user_paragraph_audio:
             with open("recorded_audio.wav", "wb") as f:
                 f.write(user_paragraph_audio.getbuffer())
-            st.session_state.user_paragraph = transcribe_audio_with_groq("recorded_audio.wav")
+            st.session_state.user_paragraph = st.session_state.groq_handler.speech_to_text("recorded_audio.wav")
         st.session_state.user_paragraph = st.text_area("Or Write paragraph to analyze",
                                                value = st.session_state.user_paragraph,
                                                placeholder="")

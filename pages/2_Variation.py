@@ -1,6 +1,6 @@
-from data_helper import DataHelper
-from llm_helper import generate_sentence, evaluate_sentence_variation
-from audio_to_text_helper import transcribe_audio_with_groq
+from utils.data_helper import DataHelper
+from utils.llm_helper import LLMHandler
+from utils.groq_helper import GroqHandler
 import streamlit as st
 
 FILE_PATH = "english_business.xlsx"
@@ -13,6 +13,12 @@ def no_more_exercises():
 
 if "data_helper" not in st.session_state:
     st.session_state.data_helper = DataHelper(FILE_PATH)
+
+if "llm_handler" not in st.session_state:
+    st.session_state.llm_handler = LLMHandler(provider="openai") 
+
+if "groq_handler" not in st.session_state:
+    st.session_state.groq_handler = GroqHandler() 
 
 if "selected_words" not in st.session_state:
     st.session_state.selected_words = {}
@@ -57,11 +63,11 @@ with st.sidebar:
                     for word in words:
                         st.session_state.words.append(f"{section}: {word}")
                 
-                sentence_response = generate_sentence(  words = st.session_state.words,
+                sentence_response = st.session_state.llm_handler.generate_sentence(  words = st.session_state.words,
                                                         verb_tense= st.session_state.verb_tense,
                                                         length = "short")
 
-                st.session_state.generated_sentence = sentence_response["generated_text"]
+                st.session_state.generated_sentence = sentence_response["generated_sentence"]
                 st.session_state.user_variation = ""
                 st.session_state.is_valid = None
                 st.session_state.corrected_variation = ""
@@ -69,11 +75,11 @@ with st.sidebar:
 
     with analyze_column:
         if st.button("Analyze", use_container_width=True):
-            evaluation_response = evaluate_sentence_variation(st.session_state.generated_sentence,
+            evaluation_response = st.session_state.llm_handler.evaluate_sentence_variation(st.session_state.generated_sentence,
                                                                st.session_state.user_variation)
             st.session_state.is_valid = evaluation_response["is_valid"]
-            st.session_state.corrected_variation = evaluation_response["corrected"]
-            st.session_state.feedback = evaluation_response["comment"]
+            st.session_state.corrected_variation = evaluation_response["corrected_sentence"]
+            st.session_state.feedback = evaluation_response["feedback"]
    
 
 
@@ -85,7 +91,7 @@ if user_paragraph_audio:
     with open("recorded_audio.wav", "wb") as f:
         f.write(user_paragraph_audio.getbuffer())
     #st.audio(user_paragraph_audio)
-    st.session_state.user_variation = transcribe_audio_with_groq("recorded_audio.wav")
+    st.session_state.user_variation = st.session_state.groq_handler.speech_to_text("recorded_audio.wav")
 st.session_state.user_variation = st.text_area("Or Write sentence to analyze",
                                                value = st.session_state.user_variation,
                                                placeholder="")
